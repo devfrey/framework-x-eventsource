@@ -10,8 +10,8 @@ final class Event
     /** @var string|null */
     private $event;
 
-    /** @var array<string> */
-    private $comments = [];
+    /** @var string */
+    private $comment = '';
 
     /** @var string */
     private $data = '';
@@ -28,23 +28,23 @@ final class Event
     }
 
     /**
-     * Append one or more comments.
+     * Set the event comment, supports line breaks.
      * Do not prefix comments with a colon – this is done by the encoder.
      *
-     * @param  string  ...$comments
+     * @param  string  $comment
      * @return self
      */
-    public function comment(string ...$comments): self
+    public function comment(string $comment): self
     {
         $clone = clone $this;
 
-        array_push($clone->comments, ...$comments);
+        $clone->comment = $comment;
 
         return $clone;
     }
 
     /**
-     * Set the event data.
+     * Set the event data, supports line breaks.
      *
      * @param  string  $data
      * @return $this
@@ -96,7 +96,7 @@ final class Event
     public function toString(Encoder $encoder): string
     {
         return $encoder(
-            $this->comments,
+            $this->comment,
             $this->event,
             $this->data,
             $this->id,
@@ -105,16 +105,16 @@ final class Event
     }
 
     /**
-     * Determine if this event consists only of comments.
+     * Determine if this event consists only of a comment.
      *
      * @return bool
      */
-    public function consistsOnlyOfComments(): bool
+    public function consistsOnlyOfComment(): bool
     {
         return is_null($this->event)
             && is_null($this->retry)
             && $this->data === ''
-            && $this->comments !== [];
+            && $this->comment !== '';
     }
 }
 

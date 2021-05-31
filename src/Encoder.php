@@ -10,7 +10,7 @@ class Encoder
     /**
      * Encode given fields into an event.
      *
-     * @param  array<string>  $comments
+     * @param  string  $comment
      * @param  string|null  $event
      * @param  string  $data
      * @param  string  $id
@@ -18,7 +18,7 @@ class Encoder
      * @return string
      */
     public function __invoke(
-        array $comments,
+        string $comment,
         ?string $event,
         string $data,
         string $id,
@@ -26,8 +26,8 @@ class Encoder
     ): string {
         $encoded = '';
 
-        foreach ($comments as $comment) {
-            $encoded .= ":{$comment}\n";
+        foreach ($this->explodeLineBreaks($comment) as $line) {
+            $encoded .= ":{$line}\n";
         }
 
         if (! is_null($event)) {
@@ -50,11 +50,11 @@ class Encoder
     }
 
     /**
-     * Line breaks within a data field are not permitted, because they would indicate the end of a field (or even a
-     * block). Therefore every line break should result in an additional data field.
+     * Line breaks within comments and data fields are not permitted, because they would indicate the end of a field
+     * (or even a block). Therefore every line break should result in an additional comment or data field.
      *
      * @param  string  $data
-     * @return array
+     * @return array<string>
      */
     protected function explodeLineBreaks(string $data): array
     {

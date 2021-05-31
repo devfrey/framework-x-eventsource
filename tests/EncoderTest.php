@@ -83,11 +83,11 @@ final class EncoderTest extends TestCase
     }
 
     /** @test */
-    public function multiple_comments()
+    public function multi_line_comments()
     {
         $event = (new Event())->comment(
-            'This is a comment',
-            'And this too.'
+            "This is a comment\n" .
+            "And this too."
         );
 
         self::assertEquals(

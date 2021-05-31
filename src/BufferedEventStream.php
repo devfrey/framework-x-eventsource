@@ -62,9 +62,9 @@ class BufferedEventStream
      */
     public function send(Event $event): void
     {
-        // Skip buffering events that only consist of comments, such as the
+        // Skip buffering events that only consist of a comment, such as the
         // keep-alive event.
-        if (! $event->consistsOnlyOfComments()) {
+        if (! $event->consistsOnlyOfComment()) {
             $this->lastEventId++;
 
             $event = $event->id($this->lastEventId);
