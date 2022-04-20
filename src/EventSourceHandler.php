@@ -13,8 +13,11 @@ use React\Stream\WritableStreamInterface;
 class EventSourceHandler
 {
     /**
+     * Create the Event Source handler.
+     *
      * @param  \Devfrey\FrameworkX\EventSource\BufferedEventStream  $eventStream
-     * @param  float|false  $keepAliveInterval  Keep-alive interval in seconds. Set to false to disable keep-alive.
+     * @param  float|false  $keepAliveInterval Keep-alive interval in seconds. Set to false to disable keep-alive.
+     * @return void
      */
     public function __construct(
         protected BufferedEventStream $eventStream,
@@ -27,7 +30,7 @@ class EventSourceHandler
     {
         $this->handleRequest(
             $stream = new ThroughStream(),
-            $request->getHeaderLine('Last-Event-ID')
+            $request->getHeaderLine('Last-Event-ID'),
         );
 
         return new Response(
@@ -46,7 +49,7 @@ class EventSourceHandler
     }
 
     /**
-     * @param  float|false  $interval  Set to false to disable keep-alive
+     * @param  float|false  $interval Set to false to disable keep-alive
      * @return \React\EventLoop\TimerInterface|null
      */
     protected function setupKeepAlive(float|bool $interval): ?TimerInterface
@@ -76,8 +79,7 @@ class EventSourceHandler
     protected function handleKeepAlive(): void
     {
         $this->eventStream->send(
-            (new Event())->comment(sha1(mt_rand()))
+            (new Event())->comment(sha1(mt_rand())),
         );
     }
 }
-

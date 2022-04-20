@@ -22,7 +22,7 @@ class Encoder
         ?string $event,
         string $data,
         string $id,
-        ?int $retry
+        ?int $retry,
     ): string {
         $encoded = '';
 
@@ -50,11 +50,12 @@ class Encoder
     }
 
     /**
-     * Line breaks within comments and data fields are not permitted, because they would indicate the end of a field
-     * (or even a block). Therefore every line break should result in an additional comment or data field.
+     * Line breaks within comments and data fields are not permitted, because
+     * they would indicate the end of a field (or even a block). Therefore every
+     * line break should result in an additional comment or data field.
      *
      * @param  string  $data
-     * @return array<string>
+     * @return string[]
      */
     protected function explodeLineBreaks(string $data): array
     {

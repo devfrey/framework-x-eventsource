@@ -19,7 +19,7 @@ final class EncoderTest extends TestCase
             "data: are\n" .
             "data: supported\n" .
             "data: \n\n",
-            $event->toString(new Encoder())
+            $event->toString(new Encoder()),
         );
     }
 
@@ -32,7 +32,7 @@ final class EncoderTest extends TestCase
         self::assertEquals(
             "event: my-event\n" .
             "data: test\n\n",
-            $event->toString(new Encoder())
+            $event->toString(new Encoder()),
         );
     }
 
@@ -43,7 +43,7 @@ final class EncoderTest extends TestCase
 
         self::assertEquals(
             "retry: 5\n\n",
-            $event->toString(new Encoder())
+            $event->toString(new Encoder()),
         );
     }
 
@@ -57,7 +57,7 @@ final class EncoderTest extends TestCase
         self::assertEquals(
             "data: +1\n" .
             "id: 5\n\n",
-            $event->toString(new Encoder())
+            $event->toString(new Encoder()),
         );
     }
 
@@ -78,7 +78,7 @@ final class EncoderTest extends TestCase
 
         self::assertEquals(
             ":keep-alive\n\n",
-            $event->toString(new Encoder())
+            $event->toString(new Encoder()),
         );
     }
 
@@ -87,13 +87,13 @@ final class EncoderTest extends TestCase
     {
         $event = (new Event())->comment(
             "This is a comment\n" .
-            "And this too."
+            'And this too.',
         );
 
         self::assertEquals(
             ":This is a comment\n" .
             ":And this too.\n\n",
-            $event->toString(new Encoder())
+            $event->toString(new Encoder()),
         );
     }
 
@@ -103,14 +103,14 @@ final class EncoderTest extends TestCase
         $event = (new Event())->data(
             "{\n" .
             '"key": "value"' . "\n" .
-            '}'
+            '}',
         );
 
         self::assertEquals(
             "data: {\n" .
             'data: "key": "value"' . "\n" .
             "data: }\n\n",
-            $event->toString(new Encoder())
+            $event->toString(new Encoder()),
         );
     }
 }

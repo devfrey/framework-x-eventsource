@@ -18,7 +18,10 @@ class BufferedEventStream
     protected array $buffer = [];
 
     /**
+     * Create the buffered event stream.
+     *
      * @param  \Devfrey\FrameworkX\EventSource\Encoder|null  $encoder
+     * @return void
      */
     public function __construct(?Encoder $encoder = null)
     {
@@ -99,7 +102,7 @@ class BufferedEventStream
     {
         for ($i = $lastEventId + 1; isset($this->buffer[$i]); $i++) {
             $stream->write(
-                $this->buffer[$i]->toString($this->encoder)
+                $this->buffer[$i]->toString($this->encoder),
             );
         }
     }

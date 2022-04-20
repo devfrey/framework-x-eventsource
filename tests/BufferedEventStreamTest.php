@@ -35,12 +35,12 @@ final class BufferedEventStreamTest extends TestCase
                 // $events->send($secondEvent):
                 [self::equalTo(''), self::equalTo('second'), self::equalTo(''), self::equalTo('2'), self::equalTo(null)],
                 // $events->connect() -> re-encode the $secondEvent from the buffer
-                [self::equalTo(''), self::equalTo('second'), self::equalTo(''), self::equalTo('2'), self::equalTo(null)]
+                [self::equalTo(''), self::equalTo('second'), self::equalTo(''), self::equalTo('2'), self::equalTo(null)],
             )
             ->willReturnOnConsecutiveCalls(
                 "event: first\n\n",
                 "event: first\n\n",
-                "event: second\n\n"
+                "event: second\n\n",
             );
 
         // Act

@@ -14,7 +14,8 @@ final class Event
 
     public function __construct(
         private ?string $event = null,
-    ) {}
+    ) {
+    }
 
     /**
      * Set the event comment, supports line breaks.
@@ -89,7 +90,7 @@ final class Event
             $this->event,
             $this->data,
             $this->id,
-            $this->retry
+            $this->retry,
         );
     }
 
@@ -106,4 +107,3 @@ final class Event
             && $this->comment !== '';
     }
 }
-
