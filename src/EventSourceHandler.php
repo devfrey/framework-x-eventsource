@@ -4,7 +4,7 @@ namespace Devfrey\FrameworkX\EventSource;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use React\EventLoop\LoopInterface;
+use React\EventLoop\Loop;
 use React\EventLoop\TimerInterface;
 use React\Http\Message\Response;
 use React\Stream\ThroughStream;
@@ -12,20 +12,15 @@ use React\Stream\WritableStreamInterface;
 
 class EventSourceHandler
 {
-    /** @var \React\EventLoop\LoopInterface */
-    protected $loop;
-
     /** @var \Devfrey\FrameworkX\EventSource\BufferedEventStream */
     protected $eventStream;
 
     /**
-     * @param  \React\EventLoop\LoopInterface  $loop
      * @param  \Devfrey\FrameworkX\EventSource\BufferedEventStream  $eventStream
      * @param  float|false  $keepAliveInterval  Keep-alive interval in seconds. Set to false to disable keep-alive.
      */
-    public function __construct(LoopInterface $loop, BufferedEventStream $eventStream, $keepAliveInterval = 15.0)
+    public function __construct(BufferedEventStream $eventStream, $keepAliveInterval = 15.0)
     {
-        $this->loop = $loop;
         $this->eventStream = $eventStream;
 
         $this->setupKeepAlive($keepAliveInterval);
@@ -47,7 +42,7 @@ class EventSourceHandler
 
     protected function handleRequest(WritableStreamInterface $stream, string $lastEventId): void
     {
-        $this->loop->futureTick(function () use ($stream, $lastEventId) {
+        Loop::get()->futureTick(function () use ($stream, $lastEventId) {
             $this->handleConnect($stream, $lastEventId);
         });
 
@@ -66,7 +61,7 @@ class EventSourceHandler
             return null;
         }
 
-        return $this->loop->addPeriodicTimer($interval, function () {
+        return Loop::get()->addPeriodicTimer($interval, function () {
             $this->handleKeepAlive();
         });
     }

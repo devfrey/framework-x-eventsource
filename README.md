@@ -10,19 +10,18 @@ Feedback is welcome. Hoping to work towards an implementation that can be shippe
 use Devfrey\FrameworkX\EventSource\BufferedEventStream;
 use Devfrey\FrameworkX\EventSource\Event;
 use Devfrey\FrameworkX\EventSource\EventSourceHandler;
+use React\EventLoop\Loop;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$loop = React\EventLoop\Factory::create();
-$app = new FrameworkX\App($loop);
+$app = new FrameworkX\App();
 
-$app->get('/', new EventSourceHandler($loop, $events = new BufferedEventStream()));
+$app->get('/', new EventSourceHandler($events = new BufferedEventStream()));
 
 // Send a random value every second
-$loop->addPeriodicTimer(1.0, function () use ($events) {
+Loop::addPeriodicTimer(1.0, function () use ($events) {
     $events->send((new Event())->data(mt_rand()));
 });
 
 $app->run();
-$loop->run();
 ```
