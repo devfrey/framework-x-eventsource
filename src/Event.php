@@ -7,25 +7,14 @@ namespace Devfrey\FrameworkX\EventSource;
  */
 final class Event
 {
-    /** @var string|null */
-    private $event;
+    private string $comment = '';
+    private string $data = '';
+    private string $id = '';
+    private ?int $retry = null;
 
-    /** @var string */
-    private $comment = '';
-
-    /** @var string */
-    private $data = '';
-
-    /** @var string */
-    private $id = '';
-
-    /** @var int|null */
-    private $retry;
-
-    public function __construct(?string $event = null)
-    {
-        $this->event = $event;
-    }
+    public function __construct(
+        private ?string $event = null,
+    ) {}
 
     /**
      * Set the event comment, supports line breaks.

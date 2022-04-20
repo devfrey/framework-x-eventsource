@@ -12,17 +12,14 @@ use React\Stream\WritableStreamInterface;
 
 class EventSourceHandler
 {
-    /** @var \Devfrey\FrameworkX\EventSource\BufferedEventStream */
-    protected $eventStream;
-
     /**
      * @param  \Devfrey\FrameworkX\EventSource\BufferedEventStream  $eventStream
      * @param  float|false  $keepAliveInterval  Keep-alive interval in seconds. Set to false to disable keep-alive.
      */
-    public function __construct(BufferedEventStream $eventStream, $keepAliveInterval = 15.0)
-    {
-        $this->eventStream = $eventStream;
-
+    public function __construct(
+        protected BufferedEventStream $eventStream,
+        float|bool $keepAliveInterval = 15.0,
+    ) {
         $this->setupKeepAlive($keepAliveInterval);
     }
 
@@ -34,9 +31,8 @@ class EventSourceHandler
         );
 
         return new Response(
-            200,
-            ['Content-Type' => 'text/event-stream'],
-            $stream
+            headers: ['Content-Type' => 'text/event-stream'],
+            body: $stream,
         );
     }
 
@@ -46,24 +42,20 @@ class EventSourceHandler
             $this->handleConnect($stream, $lastEventId);
         });
 
-        $stream->on('close', function () use ($stream) {
-            $this->handleDisconnect($stream);
-        });
+        $stream->on('close', fn () => $this->handleDisconnect($stream));
     }
 
     /**
      * @param  float|false  $interval  Set to false to disable keep-alive
      * @return \React\EventLoop\TimerInterface|null
      */
-    protected function setupKeepAlive($interval): ?TimerInterface
+    protected function setupKeepAlive(float|bool $interval): ?TimerInterface
     {
         if ($interval === false) {
             return null;
         }
 
-        return Loop::get()->addPeriodicTimer($interval, function () {
-            $this->handleKeepAlive();
-        });
+        return Loop::get()->addPeriodicTimer($interval, fn () => $this->handleKeepAlive());
     }
 
     protected function handleConnect(WritableStreamInterface $stream, string $lastEventId): void

@@ -6,17 +6,16 @@ use React\Stream\WritableStreamInterface;
 
 class BufferedEventStream
 {
-    /** @var int */
-    protected $lastEventId = 0;
+    protected int $lastEventId = 0;
 
-    /** @var \SplObjectStorage|array<\React\Stream\WritableStreamInterface> */
-    protected $streams;
+    /** @var \SplObjectStorage<\React\Stream\WritableStreamInterface> */
+    protected \SplObjectStorage $streams;
 
     /** @var \Devfrey\FrameworkX\EventSource\Encoder */
-    protected $encoder;
+    protected Encoder $encoder;
 
     /** @var array<int, \Devfrey\FrameworkX\EventSource\Event> */
-    protected $buffer = [];
+    protected array $buffer = [];
 
     /**
      * @param  \Devfrey\FrameworkX\EventSource\Encoder|null  $encoder
