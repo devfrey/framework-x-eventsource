@@ -1,8 +1,8 @@
 {
     "name": "devfrey/framework-x-eventsource",
     "description": "EventSource / Server-Sent Events for Framework X.",
-    "type": "library",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Jeffrey Angenent",
@@ -12,15 +12,23 @@
     "require": {
         "php": "~8.0.0 || ~8.1.0",
         "clue/framework-x": "dev-main",
-        "react/stream": "^1.0",
         "react/event-loop": "^1.0",
-        "react/http": "^1.0"
+        "react/http": "^1.0",
+        "react/stream": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5 || ^9.5",
-        "squizlabs/php_codesniffer": "^3.6",
-        "slevomat/coding-standard": "^7.1"
+        "slevomat/coding-standard": "^7.1",
+        "squizlabs/php_codesniffer": "^3.6"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/clue-access/framework-x"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Devfrey\\FrameworkX\\EventSource\\": "src/"
@@ -31,17 +39,10 @@
             "Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/clue-access/framework-x"
-        }
-    ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
-        }
+        },
+        "sort-packages": true
     }
 }
