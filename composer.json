@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": "~8.0.0 || ~8.1.0",
         "clue/framework-x": "dev-main",
         "react/stream": "^1.0",
         "react/event-loop": "^1.0",
